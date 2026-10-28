@@ -263,7 +263,7 @@ def ask(req: AskRequest):
     ]
 
     # Put exact "المادة N" matches first, then the semantic results (deduplicated).
-    exact = find_article_chunks(req.question)
+    exact = [] if os.getenv("DISABLE_ARTICLE_LOOKUP") == "1" else find_article_chunks(req.question)
     seen = {s["text"] for s in exact}
     sources = exact + [s for s in sources if s["text"] not in seen]
 
